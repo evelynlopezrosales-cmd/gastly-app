@@ -900,8 +900,11 @@ function generateColor() {
 // ─────────────────────────────────────────
 //  UTILS
 // ─────────────────────────────────────────
-function fmt(n) {
-  return '₡' + Math.abs(n).toLocaleString('es-CR');
+function fmt(n, signed = false) {
+  const value = Math.abs(n).toLocaleString('es-CR');
+  if (!signed) return '₡' + value;
+  const sign = n < 0 ? '-' : '';
+  return sign + '₡' + value;
 }
 
 function toast(msg) {
@@ -1361,7 +1364,7 @@ function updateKPIs() {
   
   document.getElementById('kpi-income').textContent  = fmt(income);
   document.getElementById('kpi-expense').textContent = fmt(expense);
-  document.getElementById('kpi-balance').textContent = fmt(balance);
+  document.getElementById('kpi-balance').textContent = fmt(balance, true);
 }
 
 // ─────────────────────────────────────────
@@ -1578,7 +1581,7 @@ function renderRing() {
   ctx.fillText(Math.round(pct * 100) + '%', cx, cy);
   
   // Actualizar valores en la tarjeta
-  document.getElementById('savings-current').textContent = fmt(balance);
+  document.getElementById('savings-current').textContent = fmt(balance, true);
   const status = balance >= goal ? 'superada ✓' : balance > 0 ? 'en progreso' : 'no iniciada';
   document.getElementById('savings-meta').textContent = `Meta: ${fmt(goal)} — ${status}`;
   
