@@ -1242,8 +1242,8 @@ function renderTx() {
   
   // SORT INTELIGENTE: Ordenar por fecha descendente (más reciente primero)
   txs = txs.sort((a, b) => {
-    const dateA = a.date ? new Date(a.date) : new Date(currentYear, currentMonth, a.day);
-    const dateB = b.date ? new Date(b.date) : new Date(currentYear, currentMonth, b.day);
+    const dateA = a.date ? new Date(a.date + 'T00:00:00') : new Date(currentYear, currentMonth, a.day);
+    const dateB = b.date ? new Date(b.date + 'T00:00:00') : new Date(currentYear, currentMonth, b.day);
     return dateB - dateA;  // Descendente: más reciente primero
   });
   
@@ -1320,7 +1320,7 @@ function addTx() {
     return; 
   }
 
-  const date = new Date(dateStr);
+  const date = new Date(dateStr + 'T00:00:00');
   const month = date.getMonth();  // 0-indexed
   const year = date.getFullYear();
   const day = date.getDate();
